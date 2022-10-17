@@ -1,21 +1,21 @@
-import "./App.css";
-import logo from "./logo.svg";
+import { useState } from "react";
+import Button from "./components/Button";
+import api from "./libs/api";
 
-function App() {
+const App = () => {
+  const [counter, setCounter] = useState(0);
+
+  const handleClick = () => {
+    console.log('Clicked Button');
+    return api.get('/')
+      .then(() => setCounter(prev => prev + 1))
+      .catch((error) => console.log(error));
+  }
+
   return (
-    <div className="App" role="main">
-      <article className="App-article">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h3>Welcome to React!</h3>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </article>
+    <div className="h-full w-full flex justify-center items-center flex-col">
+      <div className="text-3xl my-2">Counter: {counter}</div>
+      <Button onClick={handleClick}>Make Get request</Button>
     </div>
   );
 }
