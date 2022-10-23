@@ -57,12 +57,30 @@ class API {
     Promise.reject(error);
   }
 
-  static get(url, options) {
+  static debug() {
     return new Promise((res) => setTimeout(
       () => res("Completed")
     , 2000))
+  }
 
-    // return this.http.get(url, options)
+  static get(url = '', options = {}) {
+    return this.http.get(url, options)
+  }
+
+  static post(url = '', data = {}, options = {}) {
+    return this.http.post(url, data, options)
+  }
+
+  static postWithFiles(url = '', data = {}, options = {}) {
+    return this.http.post(url, data, { ...options, headers: { ...options.headers, 'Content-Type': 'multipart/form-data' }})
+  }
+
+  static put(url = '', options = {}) {
+    return this.http.put(url, options)
+  }
+
+  static delete(url = '', options = {}) {
+    return this.http.delete(url, options)
   }
 }
 
