@@ -63,33 +63,44 @@ class API {
     , 2000))
   }
 
-  static get(url = '', options = {}) {
+  static get(url, options) {
     return this.http.get(url, options)
   }
 
-  static post(url = '', data = {}, options = {}) {
+  static post(url, data, options) {
     return this.http.post(url, data, options)
   }
 
-  static postWithFiles(url = '', data = {}, options = {}) {
+  static postWithFiles(url, data, options) {
     return this.http.post(url, data, { ...options, headers: { ...options.headers, 'Content-Type': 'multipart/form-data' }})
   }
 
-  static put(url = '', options = {}) {
+  static put(url, options) {
     return this.http.put(url, options)
   }
 
-  static delete(url = '', options = {}) {
+  static delete(url, options) {
     return this.http.delete(url, options)
   }
 }
 
-const api = new API();
+new API();
 
 const queuedAPI = {
-  // queue: API.current_queue.length, TODO fix this
   get(url = '', options = {}) {
     return API.queue(() => API.get(url, options));
+  },
+  post(url = '', data = {}, options = {}) {
+    return API.queue(() => API.post(url, data, options));
+  },
+  postWithFiles(url = '', data = {}, options = {}) {
+    return API.queue(() => API.postWithFiles(url, data, options));
+  },
+  put(url = '', options = {}) {
+    return API.queue(() => API.put(url, options));
+  },
+  delete(url = '', options = {}) {
+    return API.queue(() => API.delete(url, options));
   }
 }
 
